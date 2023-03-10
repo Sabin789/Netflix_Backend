@@ -11,6 +11,10 @@ const {readJSON,writeJSON}=fs
  const reviewsToJson=join(dataFolderPath,"reviews.json")
 
 export const apiPath=(process.cwd())
+export const PublicFolderPath=join((process.cwd()),"./Public/img/movies")
 
  export const getMovies=()=>readJSON(moviesToJson)
 export const writeMovie=arrayOfMovies=>writeJSON(moviesToJson,arrayOfMovies)
+
+export const getReviews=()=>readJSON(reviewsToJson)
+export const writeReview=arrayOfReviews=>writeJSON(reviewsToJson,arrayOfReviews)
