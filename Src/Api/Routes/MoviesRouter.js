@@ -3,7 +3,7 @@ import uniqId from "uniqid"
 import createHttpError from "http-errors"
 import { getMovies, writeMovie } from "../lib/fs-tools.js"
 import { checkMovieSchema, triggerBadRequest } from "../Validation/movieValidation.js"
-
+import axios from "axios"
 
 const MoviesRouter=Express.Router()
 
@@ -23,17 +23,23 @@ MoviesRouter.post("/",checkMovieSchema,triggerBadRequest,async(req,res,next)=>{
     }
 })
 
-MoviesRouter.get("/",async(req,res,next)=>{
-    try{
-        const movies= await getMovies()
-        if(req.query && req.query.title){
-            const filteredMovies=movies.filter(p=>p.title===req.query.title)
-            res.send(filteredMovies)
-        }else{res.send(movies)}
-    }catch(err){
-       next(err)
+MoviesRouter.get("/", async (req, res, next) => {
+    try {
+      const movies = await getMovies();
+  
+      if (req.query && req.query.title) {
+        const filteredMovies = movies.filter(p => p.title === req.query.title);
+  
+        if (filteredMovies.length > 0) {
+          res.send(filteredMovies);
+        }} else {
+        res.send(movies);
+      }
+    } catch (err) {
+      next(err);
     }
-})
+  });
+  
 
 
 MoviesRouter.get("/:movieId",async(req,res,next)=>{
